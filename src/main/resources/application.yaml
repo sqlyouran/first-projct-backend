@@ -3,16 +3,20 @@ spring:
     name: first-projct
 
   datasource:
-    url: jdbc:h2:mem:devdb
+    url: jdbc:h2:mem:devdb;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
     username: sa
     password:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: false
     open-in-view: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
   h2:
     console:
