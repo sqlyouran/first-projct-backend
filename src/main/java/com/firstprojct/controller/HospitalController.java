@@ -26,7 +26,7 @@ public class HospitalController {
             @RequestParam(required = false) Long specialty,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, Math.min(size, 100));
         return hospitalService.searchHospitals(q, city, specialty, pageable);
     }
 

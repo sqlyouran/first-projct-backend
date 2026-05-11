@@ -21,6 +21,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     @Query("SELECT DISTINCT h FROM Hospital h JOIN SpecialtyRanking sr ON sr.hospital = h " +
            "WHERE sr.specialty.id = :specialtyId " +
            "AND (:query IS NULL OR LOWER(h.name) LIKE LOWER(CONCAT('%', :query, '%')) " +
+           "OR LOWER(h.nameCn) LIKE LOWER(CONCAT('%', :query, '%')) " +
            "OR LOWER(h.city) LIKE LOWER(CONCAT('%', :query, '%'))) " +
            "AND (:city IS NULL OR LOWER(h.city) = LOWER(:city))")
     Page<Hospital> searchBySpecialty(@Param("specialtyId") Long specialtyId,

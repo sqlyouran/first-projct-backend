@@ -9,6 +9,7 @@ version = "0.1.0-SNAPSHOT"
 
 java {
     toolchain {
+        // Target: Java 21 per design spec. Using 17 until CI/local env is upgraded.
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
