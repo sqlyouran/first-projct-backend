@@ -1,8 +1,11 @@
 # Build
-build/
-.gradle/
+target/
 bin/
 out/
+
+# Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
 
 # IDE
 .idea/

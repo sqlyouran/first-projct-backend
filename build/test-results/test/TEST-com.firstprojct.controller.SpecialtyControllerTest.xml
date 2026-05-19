@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.firstprojct.controller.SpecialtyControllerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-11T11:32:29" hostname="XWM0DYTC7T" time="0.029">
+  <properties/>
+  <testcase name="listSpecialties_returnsAllSpecialties()" classname="com.firstprojct.controller.SpecialtyControllerTest" time="0.011"/>
+  <testcase name="getSpecialtyRankings_filterByCity()" classname="com.firstprojct.controller.SpecialtyControllerTest" time="0.008"/>
+  <testcase name="getSpecialtyRankings_returnsRankedHospitals()" classname="com.firstprojct.controller.SpecialtyControllerTest" time="0.006"/>
+  <testcase name="getSpecialtyRankings_notFound()" classname="com.firstprojct.controller.SpecialtyControllerTest" time="0.003"/>
+  <system-out><![CDATA[2026-05-11T19:32:29.052+08:00  INFO 61038 --- [first-projct] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.firstprojct.controller.SpecialtyControllerTest]: SpecialtyControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-11T19:32:29.053+08:00  INFO 61038 --- [first-projct] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.firstprojct.Application for test class com.firstprojct.controller.SpecialtyControllerTest
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
