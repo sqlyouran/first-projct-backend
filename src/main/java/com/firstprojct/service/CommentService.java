@@ -3,11 +3,11 @@ package com.firstprojct.service;
 import com.firstprojct.dto.CommentDto;
 import com.firstprojct.dto.CreateCommentRequest;
 import com.firstprojct.model.Comment;
-import com.firstprojct.model.MockUser;
 import com.firstprojct.model.Post;
+import com.firstprojct.model.User;
 import com.firstprojct.repository.CommentRepository;
-import com.firstprojct.repository.MockUserRepository;
 import com.firstprojct.repository.PostRepository;
+import com.firstprojct.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,24 +20,24 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    private final MockUserRepository mockUserRepository;
+    private final UserRepository userRepository;
 
     public CommentService(CommentRepository commentRepository,
                           PostRepository postRepository,
-                          MockUserRepository mockUserRepository) {
+                          UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
-        this.mockUserRepository = mockUserRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
-    public CommentDto createComment(Long postId, CreateCommentRequest request) {
+    public CommentDto createComment(Long postId, CreateCommentRequest request, Long userId) {
         Post post = postRepository.findById(postId).orElse(null);
         if (post == null) {
             return null; // Controller will return 404
         }
 
-        MockUser user = mockUserRepository.findById(request.userId())
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Comment comment = new Comment();

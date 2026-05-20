@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -19,6 +19,7 @@ class InteractionControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "user3@example.com", roles = {"USER"})
     void likePost_toggle() throws Exception {
         // First like — should return liked=true and likeCount increases
         mockMvc.perform(post("/api/posts/3/like").param("userId", "1"))
@@ -33,6 +34,7 @@ class InteractionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user3@example.com", roles = {"USER"})
     void favoritePost_toggle() throws Exception {
         // First favorite
         mockMvc.perform(post("/api/posts/3/favorite").param("userId", "1"))
@@ -47,6 +49,7 @@ class InteractionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user3@example.com", roles = {"USER"})
     void likeComment_toggle() throws Exception {
         // Like comment 2 (no existing like from user 3)
         mockMvc.perform(post("/api/comments/2/like").param("userId", "3"))
@@ -61,6 +64,7 @@ class InteractionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user3@example.com", roles = {"USER"})
     void unlikePost_existingSeedData() throws Exception {
         // User 3 already liked post 1 in seed data — toggle should unlike
         mockMvc.perform(post("/api/posts/1/like").param("userId", "3"))

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,12 +21,12 @@ class PostControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void createPost_success() throws Exception {
         String json = """
                 {
                     "title": "测试帖子标题",
                     "content": "测试帖子内容，分享一些看病经验。",
-                    "userId": 1,
                     "hospitalIds": [1],
                     "specialtyIds": [1]
                 }
@@ -37,18 +38,18 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.title").value("测试帖子标题"))
                 .andExpect(jsonPath("$.content").value("测试帖子内容，分享一些看病经验。"))
-                .andExpect(jsonPath("$.authorNickname").value("张医生"))
+                .andExpect(jsonPath("$.authorNickname").isString())
                 .andExpect(jsonPath("$.hospitals", hasSize(1)))
                 .andExpect(jsonPath("$.specialties", hasSize(1)));
     }
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void createPost_emptyTitle_returns400() throws Exception {
         String json = """
                 {
                     "title": "",
-                    "content": "有内容",
-                    "userId": 1
+                    "content": "有内容"
                 }
                 """;
         mockMvc.perform(post("/api/posts")

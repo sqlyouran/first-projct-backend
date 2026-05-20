@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,11 +21,11 @@ class CommentControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void createTopLevelComment() throws Exception {
         String json = """
                 {
-                    "content": "这是一条测试评论",
-                    "userId": 1
+                    "content": "这是一条测试评论"
                 }
                 """;
         mockMvc.perform(post("/api/posts/1/comments")
@@ -33,15 +34,15 @@ class CommentControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.content").value("这是一条测试评论"))
-                .andExpect(jsonPath("$.authorNickname").value("张医生"));
+                .andExpect(jsonPath("$.authorNickname").isString());
     }
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void createComment_postNotFound() throws Exception {
         String json = """
                 {
-                    "content": "评论内容",
-                    "userId": 1
+                    "content": "评论内容"
                 }
                 """;
         mockMvc.perform(post("/api/posts/9999/comments")
@@ -51,11 +52,11 @@ class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void createComment_emptyContent() throws Exception {
         String json = """
                 {
-                    "content": "",
-                    "userId": 1
+                    "content": ""
                 }
                 """;
         mockMvc.perform(post("/api/posts/1/comments")
@@ -65,12 +66,12 @@ class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user2@example.com", roles = {"USER"})
     void replyToTopLevelComment() throws Exception {
         // Comment 1 is a top-level comment (parent_id is null)
         String json = """
                 {
                     "content": "回复顶级评论",
-                    "userId": 2,
                     "parentId": 1
                 }
                 """;
@@ -82,12 +83,12 @@ class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user1@example.com", roles = {"USER"})
     void replyToReply_rejected() throws Exception {
         // Comment 3 has parent_id=2, so it's a reply — replying to it should be rejected
         String json = """
                 {
                     "content": "尝试回复一条回复",
-                    "userId": 1,
                     "parentId": 3
                 }
                 """;

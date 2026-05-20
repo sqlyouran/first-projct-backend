@@ -5,9 +5,9 @@ import com.firstprojct.dto.PostDetailDto;
 import com.firstprojct.dto.PostDto;
 import com.firstprojct.model.*;
 import com.firstprojct.repository.HospitalRepository;
-import com.firstprojct.repository.MockUserRepository;
 import com.firstprojct.repository.PostRepository;
 import com.firstprojct.repository.SpecialtyRepository;
+import com.firstprojct.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,23 +21,23 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final MockUserRepository mockUserRepository;
+    private final UserRepository userRepository;
     private final HospitalRepository hospitalRepository;
     private final SpecialtyRepository specialtyRepository;
 
     public PostService(PostRepository postRepository,
-                       MockUserRepository mockUserRepository,
+                       UserRepository userRepository,
                        HospitalRepository hospitalRepository,
                        SpecialtyRepository specialtyRepository) {
         this.postRepository = postRepository;
-        this.mockUserRepository = mockUserRepository;
+        this.userRepository = userRepository;
         this.hospitalRepository = hospitalRepository;
         this.specialtyRepository = specialtyRepository;
     }
 
     @Transactional
-    public PostDetailDto createPost(CreatePostRequest request) {
-        MockUser user = mockUserRepository.findById(request.userId())
+    public PostDetailDto createPost(CreatePostRequest request, Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Post post = new Post();

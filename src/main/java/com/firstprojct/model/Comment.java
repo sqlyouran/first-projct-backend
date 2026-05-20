@@ -17,7 +17,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private MockUser user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
@@ -40,8 +40,8 @@ public class Comment {
     public Post getPost() { return post; }
     public void setPost(Post post) { this.post = post; }
 
-    public MockUser getUser() { return user; }
-    public void setUser(MockUser user) { this.user = user; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
     public Comment getParent() { return parent; }
     public void setParent(Comment parent) { this.parent = parent; }

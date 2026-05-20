@@ -22,8 +22,20 @@ spring:
     console:
       enabled: false
 
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail.smtp.auth: false
+      mail.smtp.starttls.enable: false
+
 server:
   port: 8080
+
+jwt:
+  secret: mySecretKeyForJwtTokenGenerationThatIsAtLeast256BitsLong2024
+  access-token-expiration: 900000    # 15 minutes in ms
+  refresh-token-expiration: 604800000  # 7 days in ms
 
 ---
 spring:

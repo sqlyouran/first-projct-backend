@@ -3,6 +3,8 @@ package com.firstprojct.controller;
 import com.firstprojct.dto.CreatePostRequest;
 import com.firstprojct.dto.PostDetailDto;
 import com.firstprojct.dto.PostDto;
+import com.firstprojct.model.User;
+import com.firstprojct.repository.UserRepository;
 import com.firstprojct.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -10,16 +12,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
     private final PostService postService;
+    private final UserRepository userRepository;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserRepository userRepository) {
         this.postService = postService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -32,8 +39,15 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDetailDto> createPost(@Valid @RequestBody CreatePostRequest request) {
-        PostDetailDto result = postService.createPost(request);
+    public ResponseEntity<?> createPost(@Valid @RequestBody CreatePostRequest request,
+                                         Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Authentication required"));
+        }
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        PostDetailDto result = postService.createPost(request, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
