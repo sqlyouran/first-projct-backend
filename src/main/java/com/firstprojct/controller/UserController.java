@@ -172,7 +172,11 @@ public class UserController {
                 post.getUser().getAvatarUrl(),
                 post.getLikeCount(),
                 post.getCommentCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.getType(),
+                post.getCostRange(),
+                post.getOutcome(),
+                post.getTimelineDays()
         );
     }
 }

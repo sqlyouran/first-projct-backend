@@ -14,6 +14,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p ORDER BY (p.likeCount + p.commentCount) DESC")
     Page<Post> findAllByHot(Pageable pageable);
 
+    Page<Post> findByTypeOrderByCreatedAtDesc(String type, Pageable pageable);
+
+    @Query("SELECT p FROM Post p WHERE p.type = :type ORDER BY (p.likeCount + p.commentCount) DESC")
+    Page<Post> findByTypeByHot(@Param("type") String type, Pageable pageable);
+
     @Query("SELECT p FROM Post p JOIN p.hospitalTags ht WHERE ht.hospital.id = :hospitalId ORDER BY p.createdAt DESC")
     Page<Post> findByHospitalId(@Param("hospitalId") Long hospitalId, Pageable pageable);
 

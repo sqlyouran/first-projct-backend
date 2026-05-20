@@ -10,5 +10,9 @@ public record PostDto(
         String authorAvatarUrl,
         Integer likeCount,
         Integer commentCount,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        String type,
+        String costRange,
+        String outcome,
+        Integer timelineDays
 ) {}

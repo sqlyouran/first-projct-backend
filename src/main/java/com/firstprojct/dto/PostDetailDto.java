@@ -14,7 +14,14 @@ public record PostDetailDto(
         Integer commentCount,
         LocalDateTime createdAt,
         List<HospitalInfo> hospitals,
-        List<SpecialtyInfo> specialties
+        List<SpecialtyInfo> specialties,
+        String type,
+        String conditionName,
+        String treatmentType,
+        String costRange,
+        Integer timelineDays,
+        String outcome,
+        String nationality
 ) {
     public record HospitalInfo(Long id, String name) {}
     public record SpecialtyInfo(Long id, String name) {}

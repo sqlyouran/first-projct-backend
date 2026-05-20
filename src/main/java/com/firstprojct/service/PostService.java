@@ -47,6 +47,17 @@ public class PostService {
         post.setCreatedAt(LocalDateTime.now());
         post.setUpdatedAt(LocalDateTime.now());
 
+        // Set story fields if provided
+        if (request.type() != null) {
+            post.setType(request.type());
+        }
+        post.setConditionName(request.conditionName());
+        post.setTreatmentType(request.treatmentType());
+        post.setCostRange(request.costRange());
+        post.setTimelineDays(request.timelineDays());
+        post.setOutcome(request.outcome());
+        post.setNationality(request.nationality());
+
         postRepository.save(post);
 
         if (request.hospitalIds() != null) {
@@ -77,12 +88,20 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostDto> listPosts(String sort, Pageable pageable) {
+    public Page<PostDto> listPosts(String sort, String type, Pageable pageable) {
         Page<Post> page;
-        if ("hot".equalsIgnoreCase(sort)) {
-            page = postRepository.findAllByHot(pageable);
+        if (type != null && !type.isEmpty()) {
+            if ("hot".equalsIgnoreCase(sort)) {
+                page = postRepository.findByTypeByHot(type.toUpperCase(), pageable);
+            } else {
+                page = postRepository.findByTypeOrderByCreatedAtDesc(type.toUpperCase(), pageable);
+            }
         } else {
-            page = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+            if ("hot".equalsIgnoreCase(sort)) {
+                page = postRepository.findAllByHot(pageable);
+            } else {
+                page = postRepository.findAllByOrderByCreatedAtDesc(pageable);
+            }
         }
         return page.map(this::toDto);
     }
@@ -117,7 +136,11 @@ public class PostService {
                 post.getUser().getAvatarUrl(),
                 post.getLikeCount(),
                 post.getCommentCount(),
-                post.getCreatedAt()
+                post.getCreatedAt(),
+                post.getType(),
+                post.getCostRange(),
+                post.getOutcome(),
+                post.getTimelineDays()
         );
     }
 
@@ -145,7 +168,14 @@ public class PostService {
                 post.getCommentCount(),
                 post.getCreatedAt(),
                 hospitals,
-                specialties
+                specialties,
+                post.getType(),
+                post.getConditionName(),
+                post.getTreatmentType(),
+                post.getCostRange(),
+                post.getTimelineDays(),
+                post.getOutcome(),
+                post.getNationality()
         );
     }
 }

@@ -32,10 +32,11 @@ public class PostController {
     @GetMapping
     public Page<PostDto> listPosts(
             @RequestParam(defaultValue = "latest") String sort,
+            @RequestParam(required = false) String type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, Math.min(size, 100));
-        return postService.listPosts(sort, pageable);
+        return postService.listPosts(sort, type, pageable);
     }
 
     @PostMapping

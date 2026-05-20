@@ -8,5 +8,12 @@ public record CreatePostRequest(
         @NotBlank String content,
         Long userId,
         List<Long> hospitalIds,
-        List<Long> specialtyIds
+        List<Long> specialtyIds,
+        String type,
+        String conditionName,
+        String treatmentType,
+        String costRange,
+        Integer timelineDays,
+        String outcome,
+        String nationality
 ) {}

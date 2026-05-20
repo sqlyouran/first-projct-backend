@@ -38,6 +38,27 @@ public class Post {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "type")
+    private String type = "DISCUSSION";
+
+    @Column(name = "condition_name")
+    private String conditionName;
+
+    @Column(name = "treatment_type")
+    private String treatmentType;
+
+    @Column(name = "cost_range")
+    private String costRange;
+
+    @Column(name = "timeline_days")
+    private Integer timelineDays;
+
+    @Column(name = "outcome")
+    private String outcome;
+
+    @Column(name = "nationality")
+    private String nationality;
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostHospitalTag> hospitalTags = new ArrayList<>();
 
@@ -78,4 +99,25 @@ public class Post {
 
     public List<PostSpecialtyTag> getSpecialtyTags() { return specialtyTags; }
     public void setSpecialtyTags(List<PostSpecialtyTag> specialtyTags) { this.specialtyTags = specialtyTags; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public String getConditionName() { return conditionName; }
+    public void setConditionName(String conditionName) { this.conditionName = conditionName; }
+
+    public String getTreatmentType() { return treatmentType; }
+    public void setTreatmentType(String treatmentType) { this.treatmentType = treatmentType; }
+
+    public String getCostRange() { return costRange; }
+    public void setCostRange(String costRange) { this.costRange = costRange; }
+
+    public Integer getTimelineDays() { return timelineDays; }
+    public void setTimelineDays(Integer timelineDays) { this.timelineDays = timelineDays; }
+
+    public String getOutcome() { return outcome; }
+    public void setOutcome(String outcome) { this.outcome = outcome; }
+
+    public String getNationality() { return nationality; }
+    public void setNationality(String nationality) { this.nationality = nationality; }
 }
