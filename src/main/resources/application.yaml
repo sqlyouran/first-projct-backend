@@ -33,9 +33,14 @@ server:
   port: 8080
 
 jwt:
-  secret: mySecretKeyForJwtTokenGenerationThatIsAtLeast256BitsLong2024
+  secret: ${JWT_SECRET:defaultDevSecretOnlyUsedLocallyNeverInProd256bit!!}
   access-token-expiration: 900000    # 15 minutes in ms
   refresh-token-expiration: 604800000  # 7 days in ms
+
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+  site-url: ${SITE_URL:http://localhost:5173}
 
 ---
 spring:
